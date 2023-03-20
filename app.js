@@ -51,8 +51,7 @@ const convertDistrictDbObjectToResponseObject = (dbObject) => {
   };
 };
 
-//If the token is not provided by the user or an invalid token
-//After successful verification of token proceed to next middleware or handler
+
 function authenticateToken(request, response, next) {
   let jwtToken;
   const authHeader = request.headers["authorization"];
@@ -74,7 +73,7 @@ function authenticateToken(request, response, next) {
   }
 }
 
-// API - 1
+//API-1
 
 app.post("/login/", async (request, response) => {
   const { username, password } = request.body;
@@ -101,7 +100,7 @@ app.post("/login/", async (request, response) => {
   }
 });
 
-// API - 2 Returns a list of all states in the state table
+//Returns a list of all states in the state table
 
 app.get("/states/", authenticateToken, async (request, response) => {
   const getStatesQuery = `
@@ -117,7 +116,7 @@ app.get("/states/", authenticateToken, async (request, response) => {
   );
 });
 
-//API - 3 Returns a state based on the state ID
+//Returns a state based on the state ID
 app.get("/states/:stateId/", authenticateToken, async (request, response) => {
   const { stateId } = request.params;
   const getStateQuery = `
@@ -131,7 +130,7 @@ app.get("/states/:stateId/", authenticateToken, async (request, response) => {
   response.send(convertStateDbObjectToResponseObject(state));
 });
 
-// API - 4 Create a district in the district table, district_id is auto-incremented
+//Create a district in the district table, district_id is auto-incremented
 app.get(
   "/districts/:districtId/",
   authenticateToken,
@@ -149,7 +148,7 @@ app.get(
   }
 );
 
-// API - 5 Returns a district based on the district ID
+//Returns a district based on the district ID
 
 app.post("/districts/", authenticateToken, async (request, response) => {
   const { stateId, districtName, cases, cured, active, deaths } = request.body;
@@ -162,7 +161,7 @@ app.post("/districts/", authenticateToken, async (request, response) => {
   response.send("District Successfully Added");
 });
 
-// API-6 Deletes a district from the district table based on the district ID
+//Deletes a district from the district table based on the district ID
 
 app.delete(
   "/districts/:districtId/",
@@ -179,7 +178,7 @@ app.delete(
     response.send("District Removed");
   }
 );
-//API - 7 Updates the details of a specific district based on the district ID
+//Updates the details of a specific district based on the district ID
 app.put(
   "/districts/:districtId/",
   authenticateToken,
@@ -211,7 +210,7 @@ app.put(
     response.send("District Details Updated");
   }
 );
-//API - 8 Returns the statistics of total cases, cured, active, deaths of a specific state based on state ID
+//Returns the statistics of total cases, cured, active, deaths of a specific state based on state ID
 
 app.get(
   "/states/:stateId/stats/",
